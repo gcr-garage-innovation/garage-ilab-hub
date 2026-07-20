@@ -3,7 +3,7 @@
 <head>
   <meta charset="utf-8" />
   <meta name="viewport" content="width=device-width, initial-scale=1" />
-  <title>I-LAB 操作指南</title>
+  <title>I-LAB Operating Guide | I-LAB 操作指南</title>
   <style>
     :root{
       --bg:#0b1020;--panel:#111827;--panel2:#1f2937;--text:#e5e7eb;--muted:#9ca3af;
@@ -11,10 +11,13 @@
     }
     *{box-sizing:border-box}
     body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 "Segoe UI","Microsoft YaHei",Arial,sans-serif}
-    main{max-width:1080px;margin:0 auto;padding:26px 16px 40px}
+    main{max-width:1100px;margin:0 auto;padding:24px 16px 40px}
     .hero,.card,table{background:rgba(17,24,39,.92);border:1px solid var(--line);border-radius:14px}
     .hero{padding:20px}
     .card{padding:14px}
+    .topbar{display:flex;justify-content:flex-end;gap:8px;margin-bottom:10px}
+    .btn{border:1px solid var(--line);background:#0f172a;color:#e5e7eb;border-radius:8px;padding:6px 10px;cursor:pointer}
+    .btn.active{border-color:#38bdf8;color:#38bdf8}
     h1{margin:0 0 8px;font-size:30px}
     h2{margin:24px 0 10px;color:#dbeafe}
     h3{margin:0 0 8px}
@@ -31,146 +34,244 @@
     ul{margin:8px 0 0 18px}
     li{margin:4px 0}
     .ok{color:var(--ok)} .warn{color:var(--warn)}
+    .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+    .zh,.en{display:none}
+    body.lang-zh .zh{display:inline}
+    body.lang-en .en{display:inline}
+    body.lang-zh .zh.block, body.lang-en .en.block{display:block}
+    body.lang-zh .zh.cell, body.lang-en .en.cell{display:table-cell}
     @media (max-width:860px){.grid{grid-template-columns:1fr}h1{font-size:24px}}
   </style>
 </head>
-<body>
+<body class="lang-zh">
 <main>
+  <div class="topbar">
+    <button class="btn active" id="btn-zh">中文</button>
+    <button class="btn" id="btn-en">English</button>
+  </div>
+
   <section class="hero">
-    <h1>I-LAB 操作指南</h1>
-    <p class="muted">面向第一次进入 Lab 的用户：快速了解工作站配置、模型清单、数据存储规则和问题处理方式。</p>
-    <span class="badge">工作站：GMK EVO-X2</span>
-    <span class="badge">内存：128GB</span>
-    <span class="badge">存储：2TB SSD</span>
-    <span class="badge">本地模型：Ollama</span>
-    <div class="callout"><b>推荐顺序：</b>先看硬件与模型，再按“快速开始”执行一次任务，最后按命名规则保存到 NAS。</div>
+    <h1>
+      <span class="zh">I-LAB 操作指南</span>
+      <span class="en">I-LAB Operating Guide</span>
+    </h1>
+    <p class="muted">
+      <span class="zh">面向第一次进入 Lab 的用户：快速了解工作站配置、模型清单、数据存储规则和问题处理方式。</span>
+      <span class="en">For first-time Lab users: quickly understand workstation setup, model menu, data storage rules, and support channels.</span>
+    </p>
+    <span class="badge"><span class="zh">工作站：GMK EVO-X2</span><span class="en">Workstation: GMK EVO-X2</span></span>
+    <span class="badge"><span class="zh">内存：128GB</span><span class="en">Memory: 128GB</span></span>
+    <span class="badge"><span class="zh">存储：2TB SSD</span><span class="en">Storage: 2TB SSD</span></span>
+    <span class="badge"><span class="zh">本地模型：Ollama</span><span class="en">Local Models: Ollama</span></span>
+    <div class="callout">
+      <b><span class="zh">推荐顺序：</span><span class="en">Recommended Path:</span></b>
+      <span class="zh">先看硬件与模型，再按“快速开始”执行一次任务，最后按命名规则保存到 NAS。</span>
+      <span class="en">Review hardware and model menu first, run one quick task, then save outputs to NAS using naming rules.</span>
+    </div>
   </section>
 
-  <h2>1. 工作站配置</h2>
+  <h2><span class="zh">1. 工作站配置</span><span class="en">1. Workstation Setup</span></h2>
   <section class="card">
     <table>
-      <thead><tr><th>项目</th><th>配置</th><th>说明</th></tr></thead>
+      <thead>
+        <tr>
+          <th><span class="zh">项目</span><span class="en">Item</span></th>
+          <th><span class="zh">配置</span><span class="en">Spec</span></th>
+          <th><span class="zh">说明</span><span class="en">Notes</span></th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>设备型号</td><td>GMK EVO-X2</td><td>Lab 标准工作站</td></tr>
-        <tr><td>内存</td><td>128GB</td><td>支持多模型与中高复杂任务</td></tr>
-        <tr><td>存储</td><td>2TB SSD</td><td>本地运行 + 中间文件缓存</td></tr>
-        <tr><td>模型运行时</td><td>Ollama</td><td>本地模型调用入口</td></tr>
+        <tr><td><span class="zh">设备型号</span><span class="en">Model</span></td><td>GMK EVO-X2</td><td><span class="zh">Lab 标准工作站</span><span class="en">Lab standard workstation</span></td></tr>
+        <tr><td><span class="zh">内存</span><span class="en">Memory</span></td><td>128GB</td><td><span class="zh">支持多模型与中高复杂任务</span><span class="en">Supports multi-model and medium/high complexity tasks</span></td></tr>
+        <tr><td><span class="zh">存储</span><span class="en">Storage</span></td><td>2TB SSD</td><td><span class="zh">本地运行 + 中间文件缓存</span><span class="en">Local runtime + intermediate cache</span></td></tr>
+        <tr><td><span class="zh">模型运行时</span><span class="en">Runtime</span></td><td>Ollama</td><td><span class="zh">本地模型调用入口</span><span class="en">Local model serving entry</span></td></tr>
       </tbody>
     </table>
   </section>
 
-  <h2>1.1 已预装工具清单（当前）</h2>
+  <h2><span class="zh">1.1 已预装工具清单（当前）</span><span class="en">1.1 Preinstalled Tools (Current)</span></h2>
   <section class="card">
     <table>
-      <thead><tr><th>工具</th><th>用途</th><th>说明</th></tr></thead>
+      <thead>
+        <tr>
+          <th><span class="zh">工具</span><span class="en">Tool</span></th>
+          <th><span class="zh">用途</span><span class="en">Purpose</span></th>
+          <th><span class="zh">说明</span><span class="en">Notes</span></th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>VS Code</td><td>代码编辑与调试</td><td>脚本开发、项目修改、快速验证</td></tr>
-        <tr><td>Cursor</td><td>AI 辅助开发</td><td>代码补全、重构建议、工程协作</td></tr>
-        <tr><td>豆包（本地版本）</td><td>本地 AI 交互</td><td>通用问答、文档辅助、创意生成</td></tr>
-        <tr><td>Google Chrome</td><td>网页访问与演示</td><td>访问模型入口、文档系统、在线工具</td></tr>
-        <tr><td>Arduino IDE</td><td>硬件开发</td><td>嵌入式/传感器相关开发与调试</td></tr>
+        <tr><td>VS Code</td><td><span class="zh">代码编辑与调试</span><span class="en">Code editing and debugging</span></td><td><span class="zh">脚本开发、项目修改、快速验证</span><span class="en">Script development, project changes, quick validation</span></td></tr>
+        <tr><td>Cursor</td><td><span class="zh">AI 辅助开发</span><span class="en">AI-assisted coding</span></td><td><span class="zh">代码补全、重构建议、工程协作</span><span class="en">Code completion, refactor suggestions, engineering collaboration</span></td></tr>
+        <tr><td><span class="zh">豆包（本地版本）</span><span class="en">Doubao (local version)</span></td><td><span class="zh">本地 AI 交互</span><span class="en">Local AI interaction</span></td><td><span class="zh">通用问答、文档辅助、创意生成</span><span class="en">Q&A, document assistance, content ideation</span></td></tr>
+        <tr><td>Google Chrome</td><td><span class="zh">网页访问与演示</span><span class="en">Web access and demos</span></td><td><span class="zh">访问模型入口、文档系统、在线工具</span><span class="en">Access model pages, docs systems, online tools</span></td></tr>
+        <tr><td>Arduino IDE</td><td><span class="zh">硬件开发</span><span class="en">Hardware development</span></td><td><span class="zh">嵌入式/传感器相关开发与调试</span><span class="en">Embedded/sensor development and debugging</span></td></tr>
       </tbody>
     </table>
   </section>
 
-  <h2>2. 本地模型清单（模板样机）</h2>
+  <h2><span class="zh">2. 本地模型清单（模板样机）</span><span class="en">2. Local Model Menu (Template Workstation)</span></h2>
   <section class="card">
+    <div class="filter-bar">
+      <button class="btn active model-filter" data-filter="all"><span class="zh">全部</span><span class="en">All</span></button>
+      <button class="btn model-filter" data-filter="general"><span class="zh">通用</span><span class="en">General</span></button>
+      <button class="btn model-filter" data-filter="reasoning"><span class="zh">推理</span><span class="en">Reasoning</span></button>
+      <button class="btn model-filter" data-filter="code"><span class="zh">代码</span><span class="en">Code</span></button>
+      <button class="btn model-filter" data-filter="multimodal"><span class="zh">多模态</span><span class="en">Multimodal</span></button>
+    </div>
     <table>
-      <thead><tr><th>模型</th><th>类型</th><th>建议用途</th></tr></thead>
-      <tbody>
-        <tr><td><code>qwen3:30b-a3b-instruct-2507-q4_K_M</code></td><td>通用</td><td>高复杂度综合分析</td></tr>
-        <tr><td><code>qwen3-coder:30b</code></td><td>代码</td><td>代码问答、脚本辅助</td></tr>
-        <tr><td><code>minicpm-v:8b</code></td><td>多模态</td><td>图像理解、截图/OCR</td></tr>
-        <tr><td><code>deepseek-r1:32b</code></td><td>推理</td><td>深度推理与策略分析</td></tr>
-        <tr><td><code>deepseek-r1:14b</code></td><td>推理</td><td>中等复杂推理</td></tr>
-        <tr><td><code>qwen3:14b</code></td><td>通用</td><td>通用主力（文档、方案）</td></tr>
-        <tr><td><code>qwen2.5:7b</code></td><td>通用</td><td>轻量快速问答与摘要</td></tr>
-        <tr><td><code>deepseek-coder:6.7b-instruct</code></td><td>代码</td><td>轻量代码任务</td></tr>
-        <tr><td><code>qwen2.5:14b-instruct</code></td><td>通用</td><td>稳定通用写作与整理</td></tr>
+      <thead>
+        <tr>
+          <th><span class="zh">模型</span><span class="en">Model</span></th>
+          <th><span class="zh">类型</span><span class="en">Type</span></th>
+          <th><span class="zh">建议用途</span><span class="en">Suggested Usage</span></th>
+        </tr>
+      </thead>
+      <tbody id="model-table-body">
+        <tr data-type="general"><td><code>qwen3:30b-a3b-instruct-2507-q4_K_M</code></td><td><span class="zh">通用</span><span class="en">General</span></td><td><span class="zh">高复杂度综合分析</span><span class="en">High-complexity integrated analysis</span></td></tr>
+        <tr data-type="code"><td><code>qwen3-coder:30b</code></td><td><span class="zh">代码</span><span class="en">Code</span></td><td><span class="zh">代码问答、脚本辅助</span><span class="en">Code Q&A and scripting support</span></td></tr>
+        <tr data-type="multimodal"><td><code>minicpm-v:8b</code></td><td><span class="zh">多模态</span><span class="en">Multimodal</span></td><td><span class="zh">图像理解、截图/OCR</span><span class="en">Image understanding, screenshot/OCR</span></td></tr>
+        <tr data-type="reasoning"><td><code>deepseek-r1:32b</code></td><td><span class="zh">推理</span><span class="en">Reasoning</span></td><td><span class="zh">深度推理与策略分析</span><span class="en">Deep reasoning and strategy analysis</span></td></tr>
+        <tr data-type="reasoning"><td><code>deepseek-r1:14b</code></td><td><span class="zh">推理</span><span class="en">Reasoning</span></td><td><span class="zh">中等复杂推理</span><span class="en">Medium-complexity reasoning</span></td></tr>
+        <tr data-type="general"><td><code>qwen3:14b</code></td><td><span class="zh">通用</span><span class="en">General</span></td><td><span class="zh">通用主力（文档、方案）</span><span class="en">Primary general model (docs/plans)</span></td></tr>
+        <tr data-type="general"><td><code>qwen2.5:7b</code></td><td><span class="zh">通用</span><span class="en">General</span></td><td><span class="zh">轻量快速问答与摘要</span><span class="en">Lightweight fast Q&A and summarization</span></td></tr>
+        <tr data-type="code"><td><code>deepseek-coder:6.7b-instruct</code></td><td><span class="zh">代码</span><span class="en">Code</span></td><td><span class="zh">轻量代码任务</span><span class="en">Lightweight coding tasks</span></td></tr>
+        <tr data-type="general"><td><code>qwen2.5:14b-instruct</code></td><td><span class="zh">通用</span><span class="en">General</span></td><td><span class="zh">稳定通用写作与整理</span><span class="en">Stable writing and organization</span></td></tr>
       </tbody>
     </table>
   </section>
 
-  <h2>3. 快速开始（10分钟）</h2>
+  <h2><span class="zh">3. 快速开始（10分钟）</span><span class="en">3. Quick Start (10 mins)</span></h2>
   <section class="grid">
     <article class="card">
-      <h3>Step A：确认模型已就绪</h3>
-      <p><b>【Windows 工作站本机，PowerShell】</b></p>
+      <h3><span class="zh">Step A：确认模型已就绪</span><span class="en">Step A: Verify model availability</span></h3>
+      <p><b><span class="zh">【Windows 工作站本机，PowerShell】</span><span class="en">[Windows workstation, PowerShell]</span></b></p>
       <pre><code>ollama list</code></pre>
     </article>
     <article class="card">
-      <h3>Step B：执行一次任务</h3>
-      <p><b>【Windows 工作站本机，PowerShell】</b></p>
-      <pre><code>ollama run qwen3:14b "请把这段会议纪要总结成3条行动项"</code></pre>
+      <h3><span class="zh">Step B：执行一次任务</span><span class="en">Step B: Run one task</span></h3>
+      <p><b><span class="zh">【Windows 工作站本机，PowerShell】</span><span class="en">[Windows workstation, PowerShell]</span></b></p>
+      <pre><code>ollama run qwen3:14b "请把这段会议纪要总结成3条行动项"
+ollama run qwen3:14b "Summarize this meeting note into 3 action items"</code></pre>
     </article>
   </section>
 
-  <h2>4. 数据存储（含 NAS）</h2>
+  <h2><span class="zh">4. 数据存储（含 NAS）</span><span class="en">4. Data Storage (with NAS)</span></h2>
   <section class="card">
     <table>
-      <thead><tr><th>数据类型</th><th>保存位置</th><th>说明</th></tr></thead>
+      <thead>
+        <tr>
+          <th><span class="zh">数据类型</span><span class="en">Data Type</span></th>
+          <th><span class="zh">保存位置</span><span class="en">Where to Save</span></th>
+          <th><span class="zh">说明</span><span class="en">Notes</span></th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>最终成果</td><td>NAS 共享目录（建议）</td><td><span class="ok">必须持久化</span>，便于团队复用</td></tr>
-        <tr><td>中间文件</td><td>本地临时目录</td><td><span class="warn">不建议长期存放</span>，离开前转存</td></tr>
-        <tr><td>模板与案例</td><td>团队资源库</td><td>统一版本管理</td></tr>
+        <tr><td><span class="zh">最终成果</span><span class="en">Final outputs</span></td><td><span class="zh">NAS 共享目录（建议）</span><span class="en">NAS shared folder (recommended)</span></td><td><span class="ok zh">必须持久化</span><span class="ok en">Must be persisted</span></td></tr>
+        <tr><td><span class="zh">中间文件</span><span class="en">Intermediate files</span></td><td><span class="zh">本地临时目录</span><span class="en">Local temporary folder</span></td><td><span class="warn zh">离开前转存</span><span class="warn en">Move before leaving</span></td></tr>
+        <tr><td><span class="zh">模板与案例</span><span class="en">Templates and cases</span></td><td><span class="zh">团队资源库</span><span class="en">Team resource library</span></td><td><span class="zh">统一版本管理</span><span class="en">Unified version management</span></td></tr>
       </tbody>
     </table>
-    <p class="muted">NAS 路径示例：<code>\\NAS\shared\I-LAB\</code>（请按实际环境替换）。</p>
+    <p class="muted">
+      <span class="zh">NAS 路径示例：</span><span class="en">NAS path example:</span>
+      <code>\\NAS\shared\I-LAB\</code>
+      <span class="zh">（请按实际环境替换）</span><span class="en">(replace with your actual path)</span>
+    </p>
   </section>
 
-  <h2>5. 文件命名规则（建议统一）</h2>
+  <h2><span class="zh">5. 文件命名规则（建议统一）</span><span class="en">5. File Naming Rules (Recommended)</span></h2>
   <section class="card">
     <table>
-      <thead><tr><th>用途</th><th>命名格式</th><th>示例</th></tr></thead>
+      <thead>
+        <tr>
+          <th><span class="zh">用途</span><span class="en">Use Case</span></th>
+          <th><span class="zh">命名格式</span><span class="en">Naming Format</span></th>
+          <th><span class="zh">示例</span><span class="en">Example</span></th>
+        </tr>
+      </thead>
       <tbody>
-        <tr><td>项目产出</td><td><code>项目名_场景_版本_YYYYMMDD_作者</code></td><td><code>I-LAB_文档洞察_v1_20260716_Kyle</code></td></tr>
-        <tr><td>演示材料</td><td><code>Demo_主题_对象_YYYYMMDD</code></td><td><code>Demo_RAG_GarageTeam_20260716</code></td></tr>
-        <tr><td>数据文件</td><td><code>Data_来源_用途_YYYYMMDD</code></td><td><code>Data_Survey_Training_20260716</code></td></tr>
+        <tr><td><span class="zh">项目产出</span><span class="en">Project output</span></td><td><code>Project_Scenario_Version_YYYYMMDD_Author</code></td><td><code>I-LAB_DocInsight_v1_20260716_Kyle</code></td></tr>
+        <tr><td><span class="zh">演示材料</span><span class="en">Demo material</span></td><td><code>Demo_Topic_Audience_YYYYMMDD</code></td><td><code>Demo_RAG_GarageTeam_20260716</code></td></tr>
+        <tr><td><span class="zh">数据文件</span><span class="en">Data file</span></td><td><code>Data_Source_Purpose_YYYYMMDD</code></td><td><code>Data_Survey_Training_20260716</code></td></tr>
       </tbody>
     </table>
-    <p class="muted">建议使用英文/数字/下划线，避免空格和特殊字符。</p>
   </section>
 
-  <h2>6. 软件安装与权限</h2>
+  <h2><span class="zh">6. 软件安装与权限</span><span class="en">6. Software Installation & Permissions</span></h2>
   <section class="card">
     <ul>
-      <li>临时工具：可申请后使用。</li>
-      <li>系统级改动（驱动、服务、安全策略）：需管理员在维护窗口执行。</li>
-      <li>未知来源工具：需评审，不可直接安装。</li>
+      <li><span class="zh">临时工具：可申请后使用。</span><span class="en">Temporary tools: use after request approval.</span></li>
+      <li><span class="zh">系统级改动（驱动、服务、安全策略）：需管理员在维护窗口执行。</span><span class="en">System-level changes (drivers/services/security): admin-only during maintenance windows.</span></li>
+      <li><span class="zh">未知来源工具：需评审，不可直接安装。</span><span class="en">Unknown source tools: review required; direct install is not allowed.</span></li>
     </ul>
   </section>
 
-  <h2>7. 遇到问题联系谁</h2>
+  <h2><span class="zh">7. 遇到问题联系谁</span><span class="en">7. Support & Escalation</span></h2>
   <section class="grid">
     <article class="card">
-      <h3>报障模板</h3>
+      <h3><span class="zh">报障模板</span><span class="en">Incident Template</span></h3>
       <ul>
-        <li><b>设备：</b>WS-xxx</li>
-        <li><b>时间：</b>YYYY-MM-DD HH:mm</li>
-        <li><b>现象：</b>一句话 + 截图</li>
-        <li><b>最近操作：</b>执行了什么命令/打开了什么页面</li>
+        <li><b><span class="zh">设备：</span><span class="en">Device:</span></b> WS-xxx</li>
+        <li><b><span class="zh">时间：</span><span class="en">Time:</span></b> YYYY-MM-DD HH:mm</li>
+        <li><b><span class="zh">现象：</span><span class="en">Issue:</span></b> <span class="zh">一句话 + 截图</span><span class="en">one-line summary + screenshot</span></li>
+        <li><b><span class="zh">最近操作：</span><span class="en">Recent actions:</span></b> <span class="zh">执行了什么命令/打开了什么页面</span><span class="en">commands run / pages opened</span></li>
       </ul>
     </article>
     <article class="card">
-      <h3>支持入口（待替换）</h3>
+      <h3><span class="zh">支持入口（待替换）</span><span class="en">Support Channels (To be filled)</span></h3>
       <ul>
-        <li>Teams/群：<code>[待填]</code></li>
-        <li>工单系统：<code>[待填]</code></li>
-        <li>值班表：<code>[待填]</code></li>
+        <li>Teams/Group: <code>[TBD]</code></li>
+        <li>Ticket System: <code>[TBD]</code></li>
+        <li>On-call Roster: <code>[TBD]</code></li>
       </ul>
-      <p><span class="warn">P0</span> 2小时响应；<span class="ok">P1/P2</span> 当日/周内处理。</p>
+      <p><span class="warn">P0</span> <span class="zh">2小时响应</span><span class="en">2-hour response</span>; <span class="ok">P1/P2</span> <span class="zh">当日/周内处理</span><span class="en">same-day/within week</span>.</p>
     </article>
   </section>
 
-  <h2>8. 下次来如何快速复用</h2>
+  <h2><span class="zh">8. 下次来如何快速复用</span><span class="en">8. How to Reuse Quickly Next Time</span></h2>
   <section class="card">
     <ol>
-      <li>保存本次有效提示词与流程。</li>
-      <li>把成果按命名规则存入 NAS。</li>
-      <li>把可复用步骤沉淀到案例库。</li>
-      <li>下次从案例直接启动，避免重复试错。</li>
+      <li><span class="zh">保存本次有效提示词与流程。</span><span class="en">Save effective prompts and workflow used today.</span></li>
+      <li><span class="zh">把成果按命名规则存入 NAS。</span><span class="en">Store outputs to NAS using naming rules.</span></li>
+      <li><span class="zh">把可复用步骤沉淀到案例库。</span><span class="en">Document reusable steps into the case library.</span></li>
+      <li><span class="zh">下次从案例直接启动，避免重复试错。</span><span class="en">Start from prior cases next time to avoid repeated trial-and-error.</span></li>
     </ol>
   </section>
 </main>
+
+<script>
+  (function () {
+    const body = document.body;
+    const btnZh = document.getElementById('btn-zh');
+    const btnEn = document.getElementById('btn-en');
+    const filterButtons = document.querySelectorAll('.model-filter');
+    const rows = document.querySelectorAll('#model-table-body tr');
+
+    function setLang(lang) {
+      body.classList.remove('lang-zh', 'lang-en');
+      body.classList.add(lang === 'en' ? 'lang-en' : 'lang-zh');
+      btnZh.classList.toggle('active', lang !== 'en');
+      btnEn.classList.toggle('active', lang === 'en');
+      localStorage.setItem('ilab_lang', lang);
+    }
+
+    function setFilter(type) {
+      filterButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.filter === type));
+      rows.forEach(row => {
+        row.style.display = (type === 'all' || row.dataset.type === type) ? '' : 'none';
+      });
+      localStorage.setItem('ilab_model_filter', type);
+    }
+
+    btnZh.addEventListener('click', () => setLang('zh'));
+    btnEn.addEventListener('click', () => setLang('en'));
+
+    filterButtons.forEach(btn => {
+      btn.addEventListener('click', () => setFilter(btn.dataset.filter));
+    });
+
+    setLang(localStorage.getItem('ilab_lang') || 'zh');
+    setFilter(localStorage.getItem('ilab_model_filter') || 'all');
+  })();
+</script>
 </body>
 </html>
