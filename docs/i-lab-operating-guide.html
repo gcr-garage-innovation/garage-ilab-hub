@@ -1,0 +1,162 @@
+<!doctype html>
+<html lang="zh-CN">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+  <title>I-LAB 操作指南</title>
+  <style>
+    :root{
+      --bg:#0b1020;--panel:#111827;--panel2:#1f2937;--text:#e5e7eb;--muted:#9ca3af;
+      --line:rgba(148,163,184,.25);--accent:#38bdf8;--ok:#34d399;--warn:#f59e0b;
+    }
+    *{box-sizing:border-box}
+    body{margin:0;background:var(--bg);color:var(--text);font:15px/1.65 "Segoe UI","Microsoft YaHei",Arial,sans-serif}
+    main{max-width:1080px;margin:0 auto;padding:26px 16px 40px}
+    .hero,.card,table{background:rgba(17,24,39,.92);border:1px solid var(--line);border-radius:14px}
+    .hero{padding:20px}
+    .card{padding:14px}
+    h1{margin:0 0 8px;font-size:30px}
+    h2{margin:24px 0 10px;color:#dbeafe}
+    h3{margin:0 0 8px}
+    .muted{color:var(--muted)}
+    .badge{display:inline-block;padding:4px 10px;border:1px solid var(--line);border-radius:999px;font-size:12px;margin:4px 6px 0 0}
+    .callout{margin-top:10px;padding:10px 12px;border-left:4px solid var(--accent);background:rgba(56,189,248,.1);border-radius:10px}
+    .grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px}
+    table{width:100%;border-collapse:collapse}
+    th,td{padding:10px;border-bottom:1px solid var(--line);text-align:left;vertical-align:top}
+    th{background:var(--panel2)}
+    tr:last-child td{border-bottom:0}
+    code{font-family:Consolas,monospace;background:#0f172a;padding:2px 6px;border-radius:6px}
+    pre{margin:8px 0 0;background:#0f172a;border:1px solid var(--line);border-radius:10px;padding:10px;overflow:auto}
+    ul{margin:8px 0 0 18px}
+    li{margin:4px 0}
+    .ok{color:var(--ok)} .warn{color:var(--warn)}
+    @media (max-width:860px){.grid{grid-template-columns:1fr}h1{font-size:24px}}
+  </style>
+</head>
+<body>
+<main>
+  <section class="hero">
+    <h1>I-LAB 操作指南</h1>
+    <p class="muted">面向第一次进入 Lab 的用户：快速了解工作站配置、模型清单、数据存储规则和问题处理方式。</p>
+    <span class="badge">工作站：GMK EVO-X2</span>
+    <span class="badge">内存：128GB</span>
+    <span class="badge">存储：2TB SSD</span>
+    <span class="badge">本地模型：Ollama</span>
+    <div class="callout"><b>推荐顺序：</b>先看硬件与模型，再按“快速开始”执行一次任务，最后按命名规则保存到 NAS。</div>
+  </section>
+
+  <h2>1. 工作站配置</h2>
+  <section class="card">
+    <table>
+      <thead><tr><th>项目</th><th>配置</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>设备型号</td><td>GMK EVO-X2</td><td>Lab 标准工作站</td></tr>
+        <tr><td>内存</td><td>128GB</td><td>支持多模型与中高复杂任务</td></tr>
+        <tr><td>存储</td><td>2TB SSD</td><td>本地运行 + 中间文件缓存</td></tr>
+        <tr><td>模型运行时</td><td>Ollama</td><td>本地模型调用入口</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <h2>2. 本地模型清单（模板样机）</h2>
+  <section class="card">
+    <table>
+      <thead><tr><th>模型</th><th>建议用途</th></tr></thead>
+      <tbody>
+        <tr><td><code>qwen3:30b-a3b-instruct-2507-q4_K_M</code></td><td>高复杂度综合分析</td></tr>
+        <tr><td><code>qwen3-coder:30b</code></td><td>代码问答、脚本辅助</td></tr>
+        <tr><td><code>minicpm-v:8b</code></td><td>图像理解、截图/OCR</td></tr>
+        <tr><td><code>deepseek-r1:32b</code></td><td>深度推理与策略分析</td></tr>
+        <tr><td><code>deepseek-r1:14b</code></td><td>中等复杂推理</td></tr>
+        <tr><td><code>qwen3:14b</code></td><td>通用主力（文档、方案）</td></tr>
+        <tr><td><code>qwen2.5:7b</code></td><td>轻量快速问答与摘要</td></tr>
+        <tr><td><code>deepseek-coder:6.7b-instruct</code></td><td>轻量代码任务</td></tr>
+        <tr><td><code>qwen2.5:14b-instruct</code></td><td>稳定通用写作与整理</td></tr>
+      </tbody>
+    </table>
+  </section>
+
+  <h2>3. 快速开始（10分钟）</h2>
+  <section class="grid">
+    <article class="card">
+      <h3>Step A：确认模型已就绪</h3>
+      <p><b>【Windows 工作站本机，PowerShell】</b></p>
+      <pre><code>ollama list</code></pre>
+    </article>
+    <article class="card">
+      <h3>Step B：执行一次任务</h3>
+      <p><b>【Windows 工作站本机，PowerShell】</b></p>
+      <pre><code>ollama run qwen3:14b "请把这段会议纪要总结成3条行动项"</code></pre>
+    </article>
+  </section>
+
+  <h2>4. 数据存储（含 NAS）</h2>
+  <section class="card">
+    <table>
+      <thead><tr><th>数据类型</th><th>保存位置</th><th>说明</th></tr></thead>
+      <tbody>
+        <tr><td>最终成果</td><td>NAS 共享目录（建议）</td><td><span class="ok">必须持久化</span>，便于团队复用</td></tr>
+        <tr><td>中间文件</td><td>本地临时目录</td><td><span class="warn">不建议长期存放</span>，离开前转存</td></tr>
+        <tr><td>模板与案例</td><td>团队资源库</td><td>统一版本管理</td></tr>
+      </tbody>
+    </table>
+    <p class="muted">NAS 路径示例：<code>\\NAS\shared\I-LAB\</code>（请按实际环境替换）。</p>
+  </section>
+
+  <h2>5. 文件命名规则（建议统一）</h2>
+  <section class="card">
+    <table>
+      <thead><tr><th>用途</th><th>命名格式</th><th>示例</th></tr></thead>
+      <tbody>
+        <tr><td>项目产出</td><td><code>项目名_场景_版本_YYYYMMDD_作者</code></td><td><code>I-LAB_文档洞察_v1_20260716_Kyle</code></td></tr>
+        <tr><td>演示材料</td><td><code>Demo_主题_对象_YYYYMMDD</code></td><td><code>Demo_RAG_GarageTeam_20260716</code></td></tr>
+        <tr><td>数据文件</td><td><code>Data_来源_用途_YYYYMMDD</code></td><td><code>Data_Survey_Training_20260716</code></td></tr>
+      </tbody>
+    </table>
+    <p class="muted">建议使用英文/数字/下划线，避免空格和特殊字符。</p>
+  </section>
+
+  <h2>6. 软件安装与权限</h2>
+  <section class="card">
+    <ul>
+      <li>临时工具：可申请后使用。</li>
+      <li>系统级改动（驱动、服务、安全策略）：需管理员在维护窗口执行。</li>
+      <li>未知来源工具：需评审，不可直接安装。</li>
+    </ul>
+  </section>
+
+  <h2>7. 遇到问题联系谁</h2>
+  <section class="grid">
+    <article class="card">
+      <h3>报障模板</h3>
+      <ul>
+        <li><b>设备：</b>WS-xxx</li>
+        <li><b>时间：</b>YYYY-MM-DD HH:mm</li>
+        <li><b>现象：</b>一句话 + 截图</li>
+        <li><b>最近操作：</b>执行了什么命令/打开了什么页面</li>
+      </ul>
+    </article>
+    <article class="card">
+      <h3>支持入口（待替换）</h3>
+      <ul>
+        <li>Teams/群：<code>[待填]</code></li>
+        <li>工单系统：<code>[待填]</code></li>
+        <li>值班表：<code>[待填]</code></li>
+      </ul>
+      <p><span class="warn">P0</span> 2小时响应；<span class="ok">P1/P2</span> 当日/周内处理。</p>
+    </article>
+  </section>
+
+  <h2>8. 下次来如何快速复用</h2>
+  <section class="card">
+    <ol>
+      <li>保存本次有效提示词与流程。</li>
+      <li>把成果按命名规则存入 NAS。</li>
+      <li>把可复用步骤沉淀到案例库。</li>
+      <li>下次从案例直接启动，避免重复试错。</li>
+    </ol>
+  </section>
+</main>
+</body>
+</html>
