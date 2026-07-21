@@ -35,6 +35,12 @@
     li{margin:4px 0}
     .ok{color:var(--ok)} .warn{color:var(--warn)}
     .filter-bar{display:flex;flex-wrap:wrap;gap:8px;margin:0 0 12px}
+    .flow-switch{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0}
+    .flow-view{display:none}
+    .flow-view.active{display:block}
+    .flowchart{display:grid;gap:8px}
+    .flow-node{background:#0f172a;border:1px solid var(--line);border-radius:10px;padding:10px}
+    .flow-arrow{text-align:center;color:var(--muted);font-weight:700}
     .zh,.en{display:none}
     body.lang-zh .zh{display:inline}
     body.lang-en .en{display:inline}
@@ -163,49 +169,88 @@ ollama run qwen3:14b "Summarize this meeting note into 3 action items"</code></p
         <span class="en">Click to expand/collapse: Standard employee flow</span>
       </summary>
 
-      <h3 style="margin-top:12px;"><span class="zh">Step 1：启动设备</span><span class="en">Step 1: Start the workstation</span></h3>
-      <ol>
-        <li><span class="zh">打开 I-Lab 指定设备并登录。</span><span class="en">Power on the assigned I-Lab workstation and sign in.</span></li>
-        <li><span class="zh">确认网络、输入法、浏览器可正常使用。</span><span class="en">Confirm network, input method, and browser are working.</span></li>
-        <li><span class="zh">如需帮助，请联系现场支持人员。</span><span class="en">If needed, contact on-site support.</span></li>
-      </ol>
-
-      <h3><span class="zh">Step 2：使用模型与数据处理</span><span class="en">Step 2: Use models and process data</span></h3>
-      <ol>
-        <li><span class="zh">按指引打开模型/工具并开始任务。</span><span class="en">Open the model/tools as instructed and start your task.</span></li>
-        <li><span class="zh">你的文件可临时保存在本地 D 盘。</span><span class="en">You may temporarily save files to local drive D:.</span></li>
-        <li><span class="zh">如需保留成果，请在离开前自行拷贝带走（U 盘/个人合规存储位置）。</span><span class="en">If you need to keep outputs, copy them out before leaving (USB or approved personal storage).</span></li>
-      </ol>
-
-      <div class="callout">
-        <b><span class="zh">重要提醒：</span><span class="en">Important:</span></b>
-        <ul>
-          <li><span class="zh">设备重启后会执行环境还原。</span><span class="en">Environment reset is applied after reboot.</span></li>
-          <li><span class="zh">未带走的数据将无法恢复。</span><span class="en">Data not copied out cannot be recovered.</span></li>
-          <li><span class="zh">请勿在设备中长期留存敏感信息。</span><span class="en">Do not keep sensitive data on the workstation.</span></li>
-        </ul>
+      <div class="flow-switch">
+        <button class="btn active flow-view-btn" data-view="flow">
+          <span class="zh">流程图视图</span><span class="en">Flowchart View</span>
+        </button>
+        <button class="btn flow-view-btn" data-view="text">
+          <span class="zh">文本步骤视图</span><span class="en">Text Steps View</span>
+        </button>
       </div>
 
-      <h3><span class="zh">Step 3：结束与离开</span><span class="en">Step 3: Finish and leave</span></h3>
-      <ol>
-        <li><span class="zh">关闭使用中的工具和文档。</span><span class="en">Close all tools and documents in use.</span></li>
-        <li><span class="zh">检查 D 盘文件是否已完成拷贝。</span><span class="en">Verify files in D: have been copied out.</span></li>
-        <li><span class="zh">退出账号并离开工位。</span><span class="en">Sign out and leave the workstation.</span></li>
-      </ol>
+      <div class="flow-view active" data-view="flow">
+        <div class="flowchart">
+          <div class="flow-node">
+            <b><span class="zh">Step 1：启动设备</span><span class="en">Step 1: Start Workstation</span></b><br/>
+            <span class="zh">登录设备，确认网络、输入法、浏览器可用。</span>
+            <span class="en">Sign in and confirm network, input method, and browser are ready.</span>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">
+            <b><span class="zh">Step 2：使用模型与数据处理</span><span class="en">Step 2: Use Models & Process Data</span></b><br/>
+            <span class="zh">按指引执行任务；文件可临时存 D 盘。</span>
+            <span class="en">Run tasks using guided tools; files can be temporarily saved to D:.</span>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">
+            <b><span class="zh">Step 3：结束与离开</span><span class="en">Step 3: Finish & Leave</span></b><br/>
+            <span class="zh">关闭工具，确认 D 盘文件已拷贝，退出账号。</span>
+            <span class="en">Close tools, confirm files copied from D:, then sign out.</span>
+          </div>
+          <div class="flow-arrow">↓</div>
+          <div class="flow-node">
+            <b><span class="zh">Step 4：完成调查问卷</span><span class="en">Step 4: Complete Survey</span></b><br/>
+            <span class="zh">提交体验、问题和建议，完成本次流程。</span>
+            <span class="en">Submit feedback (experience, issues, suggestions) to complete the session.</span>
+          </div>
+        </div>
+      </div>
 
-      <h3><span class="zh">Step 4：完成调查问卷</span><span class="en">Step 4: Complete the survey</span></h3>
-      <ol>
-        <li><span class="zh">扫码/点击链接填写 Survey。</span><span class="en">Scan QR code or open the survey link.</span></li>
-        <li><span class="zh">反馈本次使用体验、问题和建议。</span><span class="en">Share your experience, issues, and suggestions.</span></li>
-        <li><span class="zh">提交后即完成本次 I-Lab 流程。</span><span class="en">Submission completes this I-Lab session.</span></li>
-      </ol>
+      <div class="flow-view" data-view="text">
+        <h3 style="margin-top:12px;"><span class="zh">Step 1：启动设备</span><span class="en">Step 1: Start the workstation</span></h3>
+        <ol>
+          <li><span class="zh">打开 I-Lab 指定设备并登录。</span><span class="en">Power on the assigned I-Lab workstation and sign in.</span></li>
+          <li><span class="zh">确认网络、输入法、浏览器可正常使用。</span><span class="en">Confirm network, input method, and browser are working.</span></li>
+          <li><span class="zh">如需帮助，请联系现场支持人员。</span><span class="en">If needed, contact on-site support.</span></li>
+        </ol>
 
-      <h3><span class="zh">员工完成标准</span><span class="en">Completion criteria</span></h3>
-      <ul>
-        <li><span class="zh">已完成一次模型实操。</span><span class="en">Completed one hands-on model task.</span></li>
-        <li><span class="zh">已拷贝并带走所需成果。</span><span class="en">Copied and retained required outputs.</span></li>
-        <li><span class="zh">已提交调查问卷。</span><span class="en">Submitted the survey.</span></li>
-      </ul>
+        <h3><span class="zh">Step 2：使用模型与数据处理</span><span class="en">Step 2: Use models and process data</span></h3>
+        <ol>
+          <li><span class="zh">按指引打开模型/工具并开始任务。</span><span class="en">Open the model/tools as instructed and start your task.</span></li>
+          <li><span class="zh">你的文件可临时保存在本地 D 盘。</span><span class="en">You may temporarily save files to local drive D:.</span></li>
+          <li><span class="zh">如需保留成果，请在离开前自行拷贝带走（U 盘/个人合规存储位置）。</span><span class="en">If you need to keep outputs, copy them out before leaving (USB or approved personal storage).</span></li>
+        </ol>
+
+        <div class="callout">
+          <b><span class="zh">重要提醒：</span><span class="en">Important:</span></b>
+          <ul>
+            <li><span class="zh">设备重启后会执行环境还原。</span><span class="en">Environment reset is applied after reboot.</span></li>
+            <li><span class="zh">未带走的数据将无法恢复。</span><span class="en">Data not copied out cannot be recovered.</span></li>
+            <li><span class="zh">请勿在设备中长期留存敏感信息。</span><span class="en">Do not keep sensitive data on the workstation.</span></li>
+          </ul>
+        </div>
+
+        <h3><span class="zh">Step 3：结束与离开</span><span class="en">Step 3: Finish and leave</span></h3>
+        <ol>
+          <li><span class="zh">关闭使用中的工具和文档。</span><span class="en">Close all tools and documents in use.</span></li>
+          <li><span class="zh">检查 D 盘文件是否已完成拷贝。</span><span class="en">Verify files in D: have been copied out.</span></li>
+          <li><span class="zh">退出账号并离开工位。</span><span class="en">Sign out and leave the workstation.</span></li>
+        </ol>
+
+        <h3><span class="zh">Step 4：完成调查问卷</span><span class="en">Step 4: Complete the survey</span></h3>
+        <ol>
+          <li><span class="zh">扫码/点击链接填写 Survey。</span><span class="en">Scan QR code or open the survey link.</span></li>
+          <li><span class="zh">反馈本次使用体验、问题和建议。</span><span class="en">Share your experience, issues, and suggestions.</span></li>
+          <li><span class="zh">提交后即完成本次 I-Lab 流程。</span><span class="en">Submission completes this I-Lab session.</span></li>
+        </ol>
+
+        <h3><span class="zh">员工完成标准</span><span class="en">Completion criteria</span></h3>
+        <ul>
+          <li><span class="zh">已完成一次模型实操。</span><span class="en">Completed one hands-on model task.</span></li>
+          <li><span class="zh">已拷贝并带走所需成果。</span><span class="en">Copied and retained required outputs.</span></li>
+          <li><span class="zh">已提交调查问卷。</span><span class="en">Submitted the survey.</span></li>
+        </ul>
+      </div>
     </details>
   </section>
 
@@ -299,6 +344,8 @@ ollama run qwen3:14b "Summarize this meeting note into 3 action items"</code></p
     const btnEn = document.getElementById('btn-en');
     const filterButtons = document.querySelectorAll('.model-filter');
     const rows = document.querySelectorAll('#model-table-body tr');
+    const flowViewButtons = document.querySelectorAll('.flow-view-btn');
+    const flowViews = document.querySelectorAll('.flow-view');
 
     function setLang(lang) {
       body.classList.remove('lang-zh', 'lang-en');
@@ -316,15 +363,25 @@ ollama run qwen3:14b "Summarize this meeting note into 3 action items"</code></p
       localStorage.setItem('ilab_model_filter', type);
     }
 
+    function setFlowView(view) {
+      flowViewButtons.forEach(btn => btn.classList.toggle('active', btn.dataset.view === view));
+      flowViews.forEach(panel => panel.classList.toggle('active', panel.dataset.view === view));
+      localStorage.setItem('ilab_flow_view', view);
+    }
+
     btnZh.addEventListener('click', () => setLang('zh'));
     btnEn.addEventListener('click', () => setLang('en'));
 
     filterButtons.forEach(btn => {
       btn.addEventListener('click', () => setFilter(btn.dataset.filter));
     });
+    flowViewButtons.forEach(btn => {
+      btn.addEventListener('click', () => setFlowView(btn.dataset.view));
+    });
 
     setLang(localStorage.getItem('ilab_lang') || 'zh');
     setFilter(localStorage.getItem('ilab_model_filter') || 'all');
+    setFlowView(localStorage.getItem('ilab_flow_view') || 'flow');
   })();
 </script>
 </body>
